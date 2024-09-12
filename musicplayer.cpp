@@ -27,7 +27,7 @@ private:
 public:
     // constructor to initialize the playlist
     playlist() {
-        head = nullptr; // initialize head to null
+        head = NULL; // initialize head to null
     }
 
     // add a song to the playlist
@@ -44,21 +44,21 @@ public:
     // remove a song from the playlist
     void removesong(string title) {
         node* curr = head;
-        node* prev = nullptr;
+        node* prev = NULL;
 
         // traverse the list to find the song to remove
-        while (curr != nullptr && curr->title != title) {
+        while (curr != NULL && curr->title != title) {
             prev = curr;
             curr = curr->next;
         }
 
-        if (curr == nullptr) {
+        if (curr == NULL) {
             cout << "song not found in the playlist" << endl;
             return;
         }
 
         // update the list to remove the song
-        if (prev == nullptr) {
+        if (prev == NULL) {
             head = curr->next;
         } else {
             prev->next = curr->next;
@@ -70,7 +70,7 @@ public:
     // display the entire playlist
     void displayplaylist() {
         node* curr = head;
-        while (curr != nullptr) {
+        while (curr != NULL) {
             cout << "title: " << curr->title << ", artist: " << curr->artist << ", duration: " << curr->duration << " seconds" << endl;
             curr = curr->next;
         }
@@ -79,11 +79,11 @@ public:
     // play a specific song
     void playsong(string title) {
         node* curr = head;
-        while (curr != nullptr && curr->title != title) {
+        while (curr != NULL && curr->title != title) {
             curr = curr->next;
         }
 
-        if (curr == nullptr) {
+        if (curr == NULL) {
             cout << "song not found in the playlist" << endl;
             return;
         }
