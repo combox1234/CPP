@@ -9,7 +9,6 @@ d. Play specific songs*/
 #include <iostream>
 #include <string>
 
-// include necessary libraries for input/output and string manipulation
 using namespace std;
 
 // define the node structure for the singly linked list
@@ -92,26 +91,59 @@ public:
         cout << "playing " << curr->title << " by " << curr->artist << endl;
     } // play a specific song
 };
+
 int main() {
     // create a new playlist object
     playlist playlist;
 
-    // add three songs to the playlist
-    playlist.addsong("song 1", "artist 1", 180); // add song 1
-    playlist.addsong("song 2", "artist 2", 240); // add song 2
-    playlist.addsong("song 3", "artist 3", 300); // add song 3
+    int choice;
+    string title, artist;
+    int duration;
 
-    // display the entire playlist
-    playlist.displayplaylist(); // display the playlist with 3 songs
+    while (true) {
+        cout << "Enter your choice:" << endl;
+        cout << "1. Add a song" << endl;
+        cout << "2. Remove a song" << endl;
+        cout << "3. Display the playlist" << endl;
+        cout << "4. Play a song" << endl;
+        cout << "5. Exit" << endl;
 
-    // play a specific song
-    playlist.playsong("song 2"); // play song 2
+        cin >> choice;
 
-    // remove a song from the playlist
-    playlist.removesong("song 2"); // remove song 2
+        switch (choice) {
+            case 1://add song
+                cout << "Enter song title: ";
+                cin >> title;
+                cout << "Enter song artist: ";
+                cin >> artist;
+                cout << "Enter song duration (in seconds): ";
+                cin >> duration;
+                playlist.addsong(title, artist, duration);
+                break;
 
-    // display the updated playlist
-    playlist.displayplaylist(); // display the playlist with 2 songs
+            case 2://remoce song
+                cout << "Enter song title to remove: ";
+                cin >> title;
+                playlist.removesong(title);
+                break;
+
+            case 3://show playlist
+                playlist.displayplaylist();
+                break;
+
+            case 4://track to be played
+                cout << "Enter song title to play: ";
+                cin >> title;
+                playlist.playsong(title);
+                break;
+
+            case 5://end
+                return 0;
+
+            default:
+                cout << "please try again" << endl;
+        }
+    }
 
     return 0;
 }
