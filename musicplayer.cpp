@@ -9,100 +9,112 @@ d. Play specific songs*/
 #include <iostream>
 #include <string>
 using namespace std;
-// define the node structure for the singly linked list
-struct node {
-    string title; // song title
-    string artist; // song artist
-    int duration; // song duration in seconds
-    node* next; // pointer to the next node in the list
-}; // node structure definition
-// define the playlist class
-class playlist {
+
+class Node {//class node
 public:
-    node* head; // head of the singly linked list
-    // constructor to initialize the playlist
-    playlist() {
-        head = NULL; // initialize head to null
+    string title;// title var
+    Node* next;//next ptr
+    Node(string song) {//constructor 
+        this->title = title;//assignment to the pointer in const title.
+        this->next = NULL;//assignment is a pointer in const for next.
     }
-    // add a song to the playlist
-    void insert(string title, string artist, int duration) {//insert nodes
-        // create a new node for the song
-        node* nn = new node();
-        nn->title = title;
-        nn->artist = artist;
-        nn->duration = duration;
-        nn->next = head;
-        head = nn; // add song to the beginning of the list
-        
-    } // add song to the playlist
-    // remove a song from the playlist
-    void delete_node(string title) {//delete node
-        node* curr = head;
-        node* prev = NULL;
-        // traverse the list to find the song to remove
-        while (curr != NULL && curr->title != title) {
-            prev = curr;
-            curr = curr->next;
+};
+class Playlist {//class playlist made
+public:
+    Node* head;//head ptr
+    Playlist() {//constructor
+        this->head = NULL;//assignment for head
+    }
+    void insert_node(string song) {//Add Track funtion
+        Node* nn = new Node(song);//new ptr nn made and assigned new node made and data takes in as track 
+        nn->next = head;//every node added usin this function will add from top new node means new head everytime
+        head = nn;//head ptr will now have new node and will point at new node 
+    }
+    void delete_node(string song) {//delete node
+        Node* temp = head;//temp ptr pointing head
+        Node* prev = NULL;//prev assigned NULL
+        while (temp != NULL && temp->title != song) {//check if selected song is there or not 
+            prev = temp;//if no traverse 
+            temp = temp->next;
         }
-        if (curr == NULL) {
-            cout << "song not found in the playlist" << endl;
+        if (temp == NULL) {//if temp points at NULL then song not found
+            cout << "song not found in the queue" << endl;
             return;
         }
-        // update the list to remove the song
-        if (prev == NULL) {
-            head = curr->next;
+        if (prev == NULL) {//prev is NULL means ptr is on head
+            head = temp->next;
         } else {
-            prev->next = curr->next;
+            prev->next = temp->next;//ptr update
         }
-        delete curr; // delete the node
-    } // remove song from the playlist
-    // display the entire playlist
-    void show_track() {//display LL
-        node* curr = head;
-        while (curr != NULL) {
-            cout << "title: " << curr->title << "\t\tartist: " << curr->artist << "\tduration: " << curr->duration << " mins" << endl;
-            curr = curr->next;
+        delete temp;
+    }
+    void show_track() {
+        Node* temp = head;
+        while (temp != NULL) {
+            cout << "title: " << temp->title << endl;
+            temp = temp->next;
         }
-    } // display the entire playlist
+        if(temp = NULL){
+            cout<<"no song";
+        }
+    }
+    void insert_at_position(int position, string song) {
+        Node* nn = new Node(song);
+        if (position == 1) {//assing head
+            nn->next = head;
+            head = nn;//assign head 
+        } else {
+            Node* temp = head; 
+            int i = 1;
+            while (temp != NULL && i < position - 1) { //temp not to be head 
+                temp = temp->next;//next node
+                i++;
+            }
+            if (temp == NULL) {
+                cout << "unable to allocate this position" << endl;
+                return;
+            }
+            nn->next = temp->next;//insert mode at that position
+            temp->next = nn;
+        }
+    }
 };
 int main() {
-    // create a new playlist object
-    playlist playlist;
+    Playlist queue;
     int choice;
-    string title, artist;
-    int duration;
-    while (true) {
-        cout << "Enter your choice:" << endl;
-        cout << "1. Add a song" << endl;
-        cout << "2. Remove a song" << endl;
-        cout << "3. Display the playlist" << endl;
-        cout << "4. Exit" << endl;
+    string song;
+    int position;
+    do {
+        cout<<"1. Enter track\n2. Add song at a position\n3. remove a song\n4. diplay track\n5. exit\n\nEnter your choice:";
         cin >> choice;
-        switch (choice) {
-            case 1://add song
-                cout << "Enter song title: ";
-                cin >> title;
-                cout << "Enter song artist: ";
-                cin >> artist;
-                cout << "Enter song duration (in mins): ";
-                cin >> duration;
-                playlist.insert(title, artist, duration);//inster new node at end 
-                break;
-            case 2://remoce song
-                cout << "Enter song title to remove: ";
-                cin >> title;
-                playlist.delete_node(title);//delete funtion called
-                break;
-            case 3://show playlist
-                playlist.show_track();//show function call
-                break;
-            case 4://end
-                return 0;
 
+        switch (choice) {
+            case 1:
+                cout << "Enter song title: ";
+                cin >> song;
+                queue.insert_node(song);
+                break;
+            case 2:
+                cout << "Enter position: ";
+                cin >> position;
+                cout << "Enter song title: ";
+                cin >> song;
+                queue.insert_at_position(position, song);
+                break;
+            case 3:
+                cout << "Enter song title to remove: ";
+                cin >> song;
+                queue.delete_node(song);
+                break;
+            case 4:
+                queue.show_track();
+                break;
+            case 5:
+                return 0;
             default:
                 cout << "please try again" << endl;
         }
-    }
+    } while (true);
 
     return 0;
 }
